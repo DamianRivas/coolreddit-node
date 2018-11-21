@@ -41,5 +41,19 @@ describe("Topic", () => {
           done();
         });
     });
+
+    it("should not create a topic with a missing title or body", done => {
+      Topic.create({
+        title: "Everything Lions"
+      })
+        .then(topic => {
+          fail("A topic with a missing description should not be created");
+          done();
+        })
+        .catch(err => {
+          expect(err.message).toContain("Topic.description cannot be null");
+          done();
+        });
+    });
   });
 });
