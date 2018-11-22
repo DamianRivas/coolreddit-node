@@ -69,7 +69,7 @@ describe("User", () => {
               done();
             });
 
-          done();
+          // done();
         })
         .catch(err => {
           console.log(err);
