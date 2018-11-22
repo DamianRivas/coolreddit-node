@@ -1,5 +1,6 @@
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
+const Post = require("../../src/db/models").Post;
 
 describe("Topic", () => {
   beforeEach(done => {
@@ -54,6 +55,24 @@ describe("Topic", () => {
           expect(err.message).toContain("Topic.description cannot be null");
           done();
         });
+    });
+  });
+
+  describe("#getPosts()", () => {
+    it("should return an array of associated posts", done => {
+      Post.create({
+        title: "My first trip",
+        body: "I saw lots of stars",
+        topicId: this.topic.id
+      }).then(post => {
+        this.topic.getPosts().then(posts => {
+          expect(posts.length).toBe(1);
+          post = posts[0];
+
+          expect(post.title).toBe("My first trip");
+          done();
+        });
+      });
     });
   });
 });
