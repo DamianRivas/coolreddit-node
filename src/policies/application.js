@@ -5,7 +5,8 @@ module.exports = class ApplicationPolicy {
   }
 
   _isOwner() {
-    return this.record && this.record.userId === this.userId;
+    // TODO - Why doesn't this work with ===
+    return this.record && this.record.userId == this.user.id;
   }
 
   _isAdmin() {
@@ -13,7 +14,7 @@ module.exports = class ApplicationPolicy {
   }
 
   new() {
-    return this.user !== null;
+    return !!this.user;
   }
 
   create() {

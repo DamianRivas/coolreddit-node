@@ -58,7 +58,10 @@ module.exports = {
   destroy(req, res, next) {
     topicQueries.deleteTopic(req, (err, topic) => {
       if (err) {
-        res.redirect(401, `topics/${req.params.id}`);
+        res.redirect(
+          typeof err === "number" ? err : 500,
+          `topics/${req.params.id}`
+        );
       } else {
         res.redirect(303, "/topics");
       }
@@ -85,7 +88,10 @@ module.exports = {
   update(req, res, next) {
     topicQueries.updateTopic(req, req.body, (err, topic) => {
       if (err || topic === null) {
-        res.redirect(401, `/topics/${req.params.id}/edit`);
+        res.redirect(
+          typeof err === "number" ? err : 500,
+          `/topics/${req.params.id}/edit`
+        );
       } else {
         res.redirect(`/topics/${req.params.id}`);
       }
