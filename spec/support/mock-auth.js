@@ -7,7 +7,7 @@ module.exports = {
       id = req.body.userId || id;
       email = req.body.email || email;
 
-      if (id && id !== 0) {
+      if (id && id != 0) {
         req.user = {
           id: id,
           email: email,

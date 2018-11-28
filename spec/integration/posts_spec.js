@@ -58,6 +58,20 @@ describe("routes: posts", () => {
   // Guest user context
 
   describe("guest user performing CRUD actions for Post", () => {
+    beforeEach(done => {
+      request.get(
+        {
+          url: "http://localhost:3000/auth/fake",
+          form: {
+            userId: 0 // flag to indicate mock auth to destory any session
+          }
+        },
+        (err, res, body) => {
+          done();
+        }
+      );
+    });
+
     describe("GET /topics/:topicId/posts/new", () => {
       it("should redirect to the posts view", done => {
         request.get(`${base}/${this.topic.id}/posts/new`, (err, res, body) => {
@@ -115,7 +129,7 @@ describe("routes: posts", () => {
         request.post(
           `${base}/${this.topic.id}/posts/${this.post.id}/destroy`,
           (err, res, body) => {
-            Post.findById(1).then(post => {
+            Post.findByPk(1).then(post => {
               expect(err).toBeNull();
               expect(post).not.toBeNull();
               expect(this.topic.posts.length).toBe(postCountBeforeDelete);
@@ -250,7 +264,7 @@ describe("routes: posts", () => {
         request.post(
           `${base}/${this.topic.id}/posts/${this.post.id}/destroy`,
           (err, res, body) => {
-            Post.findById(1).then(post => {
+            Post.findByPk(1).then(post => {
               expect(err).toBeNull();
               expect(post).toBeNull();
               done();
@@ -441,7 +455,7 @@ describe("routes: posts", () => {
         request.post(
           `${base}/${this.topic.id}/posts/${this.post.id}/destroy`,
           (err, res, body) => {
-            Post.findById(1).then(post => {
+            Post.findByPk(1).then(post => {
               expect(err).toBeNull();
               expect(post).not.toBeNull();
               expect(this.topic.posts.length).toBe(postCountBeforeDelete);

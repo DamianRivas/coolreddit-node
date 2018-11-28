@@ -148,17 +148,26 @@ describe("routes : comments", () => {
     });
   });
 
-  fdescribe("member user performing CRUD actions for Comment", () => {
+  describe("member user performing CRUD actions for Comment", () => {
     beforeEach(done => {
-      authorizeUser("member", done);
+      request.get(
+        {
+          url: "http://localhost:3000/auth/fake",
+          form: {
+            role: "member",
+            userId: this.user.id
+          }
+        },
+        (err, res, body) => {
+          done();
+        }
+      );
     });
 
     describe("POST /topics/:topicId/posts/:postId/comments/create", () => {
       it("should create a new comment and redirect", done => {
         const options = {
-          url: `${base}/topics/${this.topic.id}/posts/${
-            this.post.id
-          }/comments/create`,
+          url: `${base}/${this.topic.id}/posts/${this.post.id}/comments/create`,
           form: {
             body: "This comment is amazing!"
           }
@@ -189,7 +198,7 @@ describe("routes : comments", () => {
             expect(commentCountBeforeDelete).toBe(1);
 
             request.post(
-              `${base}/topics/${this.topic.id}/posts/${this.post.id}/comments/${
+              `${base}/${this.topic.id}/posts/${this.post.id}/comments/${
                 this.comment.id
               }/destroy`,
               (err, res, body) => {

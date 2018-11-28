@@ -16,7 +16,7 @@ module.exports = {
   },
 
   deleteComment(req, callback) {
-    return Comment.findById(req.params.id)
+    return Comment.findByPk(req.params.id)
       .then(comment => {
         const authorized = new Authorizer(req.user, comment).destroy();
 
