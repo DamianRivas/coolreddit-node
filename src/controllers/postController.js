@@ -72,7 +72,7 @@ module.exports = {
           req.flash("You are not authorized to do that.");
           res.redirect(`/topics/${req.params.topicId}/posts/${req.params.id}`);
         }
-      }
+    }
     });
   },
 
