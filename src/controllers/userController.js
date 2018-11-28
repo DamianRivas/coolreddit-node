@@ -41,7 +41,7 @@ module.exports = {
         req.logIn(user, err => {
           if (err) {
             req.flash("notice", "Sign in failed. Please try again.");
-            return res.redirect("/users/sign_in");
+            return res.redirect(500, "/users/sign_in");
           }
           req.flash("notice", "You've succesfully signed in!");
           return res.redirect("/");
